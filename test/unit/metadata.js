@@ -1,12 +1,12 @@
 'use strict';
 
-const fs = require('fs');
-const assert = require('assert');
-const exifReader = require('exif-reader');
-const icc = require('icc');
+var fs = require('fs');
+var assert = require('assert');
+var exifReader = require('exif-reader');
+var icc = require('icc');
 
-const sharp = require('../../');
-const fixtures = require('../fixtures');
+var sharp = require('../../');
+var fixtures = require('../fixtures');
 
 describe('Image metadata', function () {
   it('JPEG', function (done) {
@@ -42,14 +42,14 @@ describe('Image metadata', function () {
       // EXIF
       assert.strictEqual('object', typeof metadata.exif);
       assert.strictEqual(true, metadata.exif instanceof Buffer);
-      const exif = exifReader(metadata.exif);
+      var exif = exifReader(metadata.exif);
       assert.strictEqual('object', typeof exif);
       assert.strictEqual('object', typeof exif.image);
       assert.strictEqual('number', typeof exif.image.XResolution);
       // ICC
       assert.strictEqual('object', typeof metadata.icc);
       assert.strictEqual(true, metadata.icc instanceof Buffer);
-      const profile = icc.parse(metadata.icc);
+      var profile = icc.parse(metadata.icc);
       assert.strictEqual('object', typeof profile);
       assert.strictEqual('Generic RGB Profile', profile.description);
       done();
@@ -214,8 +214,8 @@ describe('Image metadata', function () {
   });
 
   it('Stream in, Promise out', function (done) {
-    const readable = fs.createReadStream(fixtures.inputJpg);
-    const pipeline = sharp();
+    var readable = fs.createReadStream(fixtures.inputJpg);
+    var pipeline = sharp();
     pipeline.metadata().then(function (metadata) {
       assert.strictEqual('jpeg', metadata.format);
       assert.strictEqual(2725, metadata.width);
@@ -236,8 +236,8 @@ describe('Image metadata', function () {
   });
 
   it('Stream', function (done) {
-    const readable = fs.createReadStream(fixtures.inputJpg);
-    const pipeline = sharp().metadata(function (err, metadata) {
+    var readable = fs.createReadStream(fixtures.inputJpg);
+    var pipeline = sharp().metadata(function (err, metadata) {
       if (err) throw err;
       assert.strictEqual('jpeg', metadata.format);
       assert.strictEqual(2725, metadata.width);
@@ -256,7 +256,7 @@ describe('Image metadata', function () {
   });
 
   it('Resize to half width using metadata', function (done) {
-    const image = sharp(fixtures.inputJpg);
+    var image = sharp(fixtures.inputJpg);
     image.metadata(function (err, metadata) {
       if (err) throw err;
       assert.strictEqual('jpeg', metadata.format);
@@ -293,14 +293,14 @@ describe('Image metadata', function () {
           assert.strictEqual('object', typeof metadata.exif);
           assert.strictEqual(true, metadata.exif instanceof Buffer);
           // EXIF
-          const exif = exifReader(metadata.exif);
+          var exif = exifReader(metadata.exif);
           assert.strictEqual('object', typeof exif);
           assert.strictEqual('object', typeof exif.image);
           assert.strictEqual('number', typeof exif.image.XResolution);
           // ICC
           assert.strictEqual('object', typeof metadata.icc);
           assert.strictEqual(true, metadata.icc instanceof Buffer);
-          const profile = icc.parse(metadata.icc);
+          var profile = icc.parse(metadata.icc);
           assert.strictEqual('object', typeof profile);
           assert.strictEqual('RGB', profile.colorSpace);
           assert.strictEqual('Perceptual', profile.intent);

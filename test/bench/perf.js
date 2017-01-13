@@ -1,17 +1,17 @@
 'use strict';
 
-const fs = require('fs');
+var fs = require('fs');
 
-const async = require('async');
-const assert = require('assert');
-const Benchmark = require('benchmark');
+var async = require('async');
+var assert = require('assert');
+var Benchmark = require('benchmark');
 
 // Contenders
-const gm = require('gm');
-const imagemagick = require('imagemagick');
-const mapnik = require('mapnik');
-const jimp = require('jimp');
-const sharp = require('../../');
+var gm = require('gm');
+var imagemagick = require('imagemagick');
+var mapnik = require('mapnik');
+var jimp = require('jimp');
+var sharp = require('../../');
 let imagemagickNative;
 try {
   imagemagickNative = require('imagemagick-native');
@@ -25,10 +25,10 @@ try {
   console.log('Excluding lwip');
 }
 
-const fixtures = require('../fixtures');
+var fixtures = require('../fixtures');
 
-const width = 720;
-const height = 588;
+var width = 720;
+var height = 588;
 
 // Disable libvips cache to ensure tests are as fair as they can be
 sharp.cache(false);
@@ -37,8 +37,8 @@ sharp.simd(true);
 
 async.series({
   'jpeg': function (callback) {
-    const inputJpgBuffer = fs.readFileSync(fixtures.inputJpg);
-    const jpegSuite = new Benchmark.Suite('jpeg');
+    var inputJpgBuffer = fs.readFileSync(fixtures.inputJpg);
+    var jpegSuite = new Benchmark.Suite('jpeg');
     // jimp
     jpegSuite.add('jimp-buffer-buffer', {
       defer: true,
@@ -310,12 +310,12 @@ async.series({
     }).add('sharp-stream-stream', {
       defer: true,
       fn: function (deferred) {
-        const readable = fs.createReadStream(fixtures.inputJpg);
-        const writable = fs.createWriteStream(fixtures.outputJpg);
+        var readable = fs.createReadStream(fixtures.inputJpg);
+        var writable = fs.createWriteStream(fixtures.outputJpg);
         writable.on('finish', function () {
           deferred.resolve();
         });
-        const pipeline = sharp()
+        var pipeline = sharp()
           .resize(width, height);
         readable.pipe(pipeline).pipe(writable);
       }
@@ -352,8 +352,8 @@ async.series({
   },
   // Effect of applying operations
   operations: function (callback) {
-    const inputJpgBuffer = fs.readFileSync(fixtures.inputJpg);
-    const operationsSuite = new Benchmark.Suite('operations');
+    var inputJpgBuffer = fs.readFileSync(fixtures.inputJpg);
+    var operationsSuite = new Benchmark.Suite('operations');
     operationsSuite.add('sharp-sharpen-mild', {
       defer: true,
       fn: function (deferred) {
@@ -589,7 +589,7 @@ async.series({
   },
   // Comparitive speed of kernels
   kernels: function (callback) {
-    const inputJpgBuffer = fs.readFileSync(fixtures.inputJpg);
+    var inputJpgBuffer = fs.readFileSync(fixtures.inputJpg);
     (new Benchmark.Suite('kernels')).add('sharp-cubic', {
       defer: true,
       fn: function (deferred) {
@@ -640,8 +640,8 @@ async.series({
   },
   // PNG
   png: function (callback) {
-    const inputPngBuffer = fs.readFileSync(fixtures.inputPng);
-    const pngSuite = new Benchmark.Suite('png');
+    var inputPngBuffer = fs.readFileSync(fixtures.inputPng);
+    var pngSuite = new Benchmark.Suite('png');
     // jimp
     pngSuite.add('jimp-buffer-buffer', {
       defer: true,
@@ -913,7 +913,7 @@ async.series({
   },
   // WebP
   webp: function (callback) {
-    const inputWebPBuffer = fs.readFileSync(fixtures.inputWebP);
+    var inputWebPBuffer = fs.readFileSync(fixtures.inputWebP);
     (new Benchmark.Suite('webp')).add('sharp-buffer-file', {
       defer: true,
       fn: function (deferred) {

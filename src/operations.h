@@ -15,13 +15,13 @@ namespace sharp {
     Alpha composite src over dst with given gravity.
     Assumes alpha channels are already premultiplied and will be unpremultiplied after.
    */
-  VImage Composite(VImage src, VImage dst, const int gravity);
+  VImage Composite(VImage src, VImage dst, var int gravity);
 
   /*
     Alpha composite src over dst with given x and y offsets.
     Assumes alpha channels are already premultiplied and will be unpremultiplied after.
    */
-  VImage Composite(VImage src, VImage dst, const int x, const int y);
+  VImage Composite(VImage src, VImage dst, var int x, var int y);
 
   /*
     Check if the src and dst Images for composition operation are valid
@@ -36,7 +36,7 @@ namespace sharp {
   /*
     Cutout src over dst with given gravity.
   */
-  VImage Cutout(VImage src, VImage dst, const int gravity);
+  VImage Cutout(VImage src, VImage dst, var int gravity);
 
   /*
    * Stretch luminance to cover full dynamic range.
@@ -46,23 +46,23 @@ namespace sharp {
   /*
    * Gamma encoding/decoding
    */
-  VImage Gamma(VImage image, double const exponent);
+  VImage Gamma(VImage image, double var exponent);
 
   /*
    * Gaussian blur. Use sigma of -1.0 for fast blur.
    */
-  VImage Blur(VImage image, double const sigma);
+  VImage Blur(VImage image, double var sigma);
 
   /*
    * Convolution with a kernel.
    */
-  VImage Convolve(VImage image, int const width, int const height,
-    double const scale, double const offset, std::unique_ptr<double[]> const &kernel_v);
+  VImage Convolve(VImage image, int var width, int var height,
+    double var scale, double var offset, std::unique_ptr<double[]> var &kernel_v);
 
   /*
    * Sharpen flat and jagged areas. Use sigma of -1.0 for fast sharpen.
    */
-  VImage Sharpen(VImage image, double const sigma, double const flat, double const jagged);
+  VImage Sharpen(VImage image, double var sigma, double var flat, double var jagged);
 
   /*
     Crop strategy functors
@@ -78,33 +78,33 @@ namespace sharp {
     Calculate crop area based on given strategy (Entropy, Attention)
   */
   std::tuple<int, int> Crop(
-    VImage image, int const outWidth, int const outHeight, std::function<double(VImage)> strategy
+    VImage image, int var outWidth, int var outHeight, std::function<double(VImage)> strategy
   );
 
   /*
     Insert a tile cache to prevent over-computation of any previous operations in the pipeline
   */
-  VImage TileCache(VImage image, double const factor);
+  VImage TileCache(VImage image, double var factor);
 
   /*
     Threshold an image
   */
-  VImage Threshold(VImage image, double const threshold, bool const thresholdColor);
+  VImage Threshold(VImage image, double var threshold, bool var thresholdColor);
 
   /*
     Perform boolean/bitwise operation on image color channels - results in one channel image
   */
-  VImage Bandbool(VImage image, VipsOperationBoolean const boolean);
+  VImage Bandbool(VImage image, VipsOperationBoolean var boolean);
 
   /*
     Perform bitwise boolean operation between images
   */
-  VImage Boolean(VImage image, VImage imageR, VipsOperationBoolean const boolean);
+  VImage Boolean(VImage image, VImage imageR, VipsOperationBoolean var boolean);
 
   /*
     Trim an image
   */
-  VImage Trim(VImage image, int const tolerance);
+  VImage Trim(VImage image, int var tolerance);
 
 }  // namespace sharp
 

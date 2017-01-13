@@ -24,7 +24,7 @@ useful for determining how much working memory is required for a particular task
 **Examples**
 
 ```javascript
-const stats = sharp.cache();
+var stats = sharp.cache();
 ```
 
 ```javascript
@@ -54,7 +54,7 @@ This method always returns the current concurrency.
 **Examples**
 
 ```javascript
-const threads = sharp.concurrency(); // 4
+var threads = sharp.concurrency(); // 4
 sharp.concurrency(2); // 2
 sharp.concurrency(0); // 4
 ```
@@ -71,7 +71,7 @@ Provides access to internal task counters.
 **Examples**
 
 ```javascript
-const counters = sharp.counters(); // { queue: 2, process: 4 }
+var counters = sharp.counters(); // { queue: 2, process: 4 }
 ```
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
@@ -94,12 +94,12 @@ Versions of liborc prior to 0.4.25 are known to segfault under heavy load.
 **Examples**
 
 ```javascript
-const simd = sharp.simd();
+var simd = sharp.simd();
 // simd is `true` if SIMD is currently enabled
 ```
 
 ```javascript
-const simd = sharp.simd(true);
+var simd = sharp.simd(true);
 // attempts to enable the use of SIMD, returning true if available
 ```
 

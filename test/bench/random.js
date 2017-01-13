@@ -1,20 +1,20 @@
 'use strict';
 
-const imagemagick = require('imagemagick');
-const gm = require('gm');
-const assert = require('assert');
-const Benchmark = require('benchmark');
+var imagemagick = require('imagemagick');
+var gm = require('gm');
+var assert = require('assert');
+var Benchmark = require('benchmark');
 
-const sharp = require('../../');
-const fixtures = require('../fixtures');
+var sharp = require('../../');
+var fixtures = require('../fixtures');
 
 sharp.cache(false);
 sharp.simd(true);
 
-const min = 320;
-const max = 960;
+var min = 320;
+var max = 960;
 
-const randomDimension = function () {
+var randomDimension = function () {
   return Math.ceil(Math.random() * (max - min) + min);
 };
 
@@ -70,6 +70,6 @@ new Benchmark.Suite('random').add('imagemagick', {
 }).on('cycle', function (event) {
   console.log(String(event.target));
 }).on('complete', function () {
-  const winner = this.filter('fastest').map('name');
+  var winner = this.filter('fastest').map('name');
   assert.strictEqual('sharp', String(winner), 'sharp was slower than ' + winner);
 }).run();

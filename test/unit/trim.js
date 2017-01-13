@@ -1,13 +1,13 @@
 'use strict';
 
-const assert = require('assert');
+var assert = require('assert');
 
-const sharp = require('../../');
-const fixtures = require('../fixtures');
+var sharp = require('../../');
+var fixtures = require('../fixtures');
 
 describe('Trim borders', function () {
   it('Threshold default', function (done) {
-    const expected = fixtures.expected('alpha-layer-1-fill-trim-resize.png');
+    var expected = fixtures.expected('alpha-layer-1-fill-trim-resize.png');
     sharp(fixtures.inputPngOverlayLayer1)
       .resize(450, 322)
       .trim()

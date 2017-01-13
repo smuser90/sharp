@@ -1,10 +1,10 @@
 'use strict';
 
-const fs = require('fs');
-const assert = require('assert');
+var fs = require('fs');
+var assert = require('assert');
 
-const sharp = require('../../');
-const fixtures = require('../fixtures');
+var sharp = require('../../');
+var fixtures = require('../fixtures');
 
 describe('Clone', function () {
   beforeEach(function () {
@@ -17,8 +17,8 @@ describe('Clone', function () {
   it('Read from Stream and write to multiple Streams', function (done) {
     let finishEventsExpected = 2;
     // Output stream 1
-    const output1 = fixtures.path('output.multi-stream.1.jpg');
-    const writable1 = fs.createWriteStream(output1);
+    var output1 = fixtures.path('output.multi-stream.1.jpg');
+    var writable1 = fs.createWriteStream(output1);
     writable1.on('finish', function () {
       sharp(output1).toBuffer(function (err, data, info) {
         if (err) throw err;
@@ -35,8 +35,8 @@ describe('Clone', function () {
       });
     });
     // Output stream 2
-    const output2 = fixtures.path('output.multi-stream.2.jpg');
-    const writable2 = fs.createWriteStream(output2);
+    var output2 = fixtures.path('output.multi-stream.2.jpg');
+    var writable2 = fs.createWriteStream(output2);
     writable2.on('finish', function () {
       sharp(output2).toBuffer(function (err, data, info) {
         if (err) throw err;
@@ -53,7 +53,7 @@ describe('Clone', function () {
       });
     });
     // Create parent instance
-    const rotator = sharp().rotate(90);
+    var rotator = sharp().rotate(90);
     // Cloned instances with differing dimensions
     rotator.clone().resize(320, 240).pipe(writable1);
     rotator.clone().resize(100, 122).pipe(writable2);

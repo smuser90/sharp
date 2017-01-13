@@ -1,15 +1,15 @@
 'use strict';
 
-const assert = require('assert');
-const sharp = require('../../');
+var assert = require('assert');
+var sharp = require('../../');
 
-const defaultConcurrency = sharp.concurrency();
+var defaultConcurrency = sharp.concurrency();
 
 describe('Utilities', function () {
   describe('Cache', function () {
     it('Can be disabled', function () {
       sharp.cache(false);
-      const cache = sharp.cache(false);
+      var cache = sharp.cache(false);
       assert.strictEqual(cache.memory.current, 0);
       assert.strictEqual(cache.memory.max, 0);
       assert.strictEqual(typeof cache.memory.high, 'number');
@@ -19,13 +19,13 @@ describe('Utilities', function () {
       assert.strictEqual(cache.items.max, 0);
     });
     it('Can be enabled with defaults', function () {
-      const cache = sharp.cache(true);
+      var cache = sharp.cache(true);
       assert.strictEqual(cache.memory.max, 50);
       assert.strictEqual(cache.files.max, 20);
       assert.strictEqual(cache.items.max, 100);
     });
     it('Can be set to zero', function () {
-      const cache = sharp.cache({
+      var cache = sharp.cache({
         memory: 0,
         files: 0,
         items: 0
@@ -35,7 +35,7 @@ describe('Utilities', function () {
       assert.strictEqual(cache.items.max, 0);
     });
     it('Can be set to a maximum of 10MB, 100 files and 1000 items', function () {
-      const cache = sharp.cache({
+      var cache = sharp.cache({
         memory: 10,
         files: 100,
         items: 1000
@@ -46,7 +46,7 @@ describe('Utilities', function () {
     });
     it('Ignores invalid values', function () {
       sharp.cache(true);
-      const cache = sharp.cache('spoons');
+      var cache = sharp.cache('spoons');
       assert.strictEqual(cache.memory.max, 50);
       assert.strictEqual(cache.files.max, 20);
       assert.strictEqual(cache.items.max, 100);
@@ -71,7 +71,7 @@ describe('Utilities', function () {
 
   describe('Counters', function () {
     it('Have zero value at rest', function () {
-      const counters = sharp.counters();
+      var counters = sharp.counters();
       assert.strictEqual(0, counters.queue);
       assert.strictEqual(0, counters.process);
     });
@@ -79,15 +79,15 @@ describe('Utilities', function () {
 
   describe('SIMD', function () {
     it('Can get current state', function () {
-      const simd = sharp.simd();
+      var simd = sharp.simd();
       assert.strictEqual(typeof simd, 'boolean');
     });
     it('Can disable', function () {
-      const simd = sharp.simd(false);
+      var simd = sharp.simd(false);
       assert.strictEqual(simd, false);
     });
     it('Can attempt to enable', function () {
-      const simd = sharp.simd(true);
+      var simd = sharp.simd(true);
       assert.strictEqual(typeof simd, 'boolean');
     });
   });

@@ -1,10 +1,10 @@
 'use strict';
 
-const assert = require('assert');
-const fs = require('fs');
+var assert = require('assert');
+var fs = require('fs');
 
-const sharp = require('../../');
-const fixtures = require('../fixtures');
+var sharp = require('../../');
+var fixtures = require('../fixtures');
 
 describe('Image channel insertion', function () {
   it('Grayscale to RGB, buffer', function (done) {

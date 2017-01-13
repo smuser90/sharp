@@ -1,9 +1,9 @@
 'use strict';
 
-const assert = require('assert');
+var assert = require('assert');
 
-const sharp = require('../../');
-const fixtures = require('../fixtures');
+var sharp = require('../../');
+var fixtures = require('../fixtures');
 
 describe('Threshold', function () {
   it('threshold 1 jpeg', function (done) {

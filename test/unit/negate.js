@@ -1,9 +1,9 @@
 'use strict';
 
-const assert = require('assert');
+var assert = require('assert');
 
-const sharp = require('../../');
-const fixtures = require('../fixtures');
+var sharp = require('../../');
+var fixtures = require('../fixtures');
 
 describe('Negate', function () {
   it('negate (jpeg)', function (done) {
@@ -98,7 +98,7 @@ describe('Negate', function () {
   });
 
   it('negate (false)', function (done) {
-    const output = fixtures.path('output.unmodified-by-negate.png');
+    var output = fixtures.path('output.unmodified-by-negate.png');
     sharp(fixtures.inputJpgWithLowContrast)
       .negate(false)
       .toFile(output, function (err, info) {

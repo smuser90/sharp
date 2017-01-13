@@ -454,7 +454,7 @@ Requires libvips v8.2.0
   [#189](https://github.com/lovell/sharp/issues/189)
   [@h2non](https://github.com/h2non)
 
-* Tighten constructor parameter checks.
+* Tighten varructor parameter checks.
   [#221](https://github.com/lovell/sharp/issues/221)
   [@mikemorris](https://github.com/mikemorris)
 

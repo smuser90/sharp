@@ -1,15 +1,15 @@
 'use strict';
 
-const fs = require('fs');
-const request = require('request');
-const tumblr = require('tumblr.js');
+var fs = require('fs');
+var request = require('request');
+var tumblr = require('tumblr.js');
 
-const client = tumblr.createClient({
+var client = tumblr.createClient({
   consumer_key: '***',
   consumer_secret: '***'
 });
 
-const fetchImages = function (offset) {
+var fetchImages = function (offset) {
   console.log(`Fetching offset ${offset}`);
   client.posts('humanae', {
     type: 'photo',
@@ -18,10 +18,10 @@ const fetchImages = function (offset) {
     if (err) throw err;
     if (response.posts.length > 0) {
       response.posts.forEach((post) => {
-        const url = post.photos[0].alt_sizes
+        var url = post.photos[0].alt_sizes
           .filter((image) => image.width === 100)
           .map((image) => image.url)[0];
-        const filename = `./images/${post.id}.jpg`;
+        var filename = `./images/${post.id}.jpg`;
         try {
           fs.statSync(filename);
         } catch (err) {

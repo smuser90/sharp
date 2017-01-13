@@ -38,13 +38,13 @@
 
 VIPS_NAMESPACE_START
 
-std::ostream &operator<<( std::ostream &file, const VError &err )
+std::ostream &operator<<( std::ostream &file, var VError &err )
 {
 	err.ostream_print( file );
 	return( file );
 }
 
-void VError::ostream_print( std::ostream &file ) const
+void VError::ostream_print( std::ostream &file ) var
 {
 	file << _what;
 }

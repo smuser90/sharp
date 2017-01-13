@@ -1,10 +1,10 @@
 'use strict';
 
-const fs = require('fs');
-const assert = require('assert');
+var fs = require('fs');
+var assert = require('assert');
 
-const sharp = require('../../');
-const fixtures = require('../fixtures');
+var sharp = require('../../');
+var fixtures = require('../fixtures');
 
 describe('Input/output', function () {
   beforeEach(function () {
@@ -15,7 +15,7 @@ describe('Input/output', function () {
   });
 
   it('Read from File and write to Stream', function (done) {
-    const writable = fs.createWriteStream(fixtures.outputJpg);
+    var writable = fs.createWriteStream(fixtures.outputJpg);
     writable.on('finish', function () {
       sharp(fixtures.outputJpg).toBuffer(function (err, data, info) {
         if (err) throw err;
@@ -32,8 +32,8 @@ describe('Input/output', function () {
   });
 
   it('Read from Buffer and write to Stream', function (done) {
-    const inputJpgBuffer = fs.readFileSync(fixtures.inputJpg);
-    const writable = fs.createWriteStream(fixtures.outputJpg);
+    var inputJpgBuffer = fs.readFileSync(fixtures.inputJpg);
+    var writable = fs.createWriteStream(fixtures.outputJpg);
     writable.on('finish', function () {
       sharp(fixtures.outputJpg).toBuffer(function (err, data, info) {
         if (err) throw err;
@@ -50,8 +50,8 @@ describe('Input/output', function () {
   });
 
   it('Read from Stream and write to File', function (done) {
-    const readable = fs.createReadStream(fixtures.inputJpg);
-    const pipeline = sharp().resize(320, 240).toFile(fixtures.outputJpg, function (err, info) {
+    var readable = fs.createReadStream(fixtures.inputJpg);
+    var pipeline = sharp().resize(320, 240).toFile(fixtures.outputJpg, function (err, info) {
       if (err) throw err;
       assert.strictEqual(true, info.size > 0);
       assert.strictEqual('jpeg', info.format);
@@ -64,8 +64,8 @@ describe('Input/output', function () {
   });
 
   it('Read from Stream and write to Buffer', function (done) {
-    const readable = fs.createReadStream(fixtures.inputJpg);
-    const pipeline = sharp().resize(320, 240).toBuffer(function (err, data, info) {
+    var readable = fs.createReadStream(fixtures.inputJpg);
+    var pipeline = sharp().resize(320, 240).toBuffer(function (err, data, info) {
       if (err) throw err;
       assert.strictEqual(true, data.length > 0);
       assert.strictEqual(data.length, info.size);
@@ -78,8 +78,8 @@ describe('Input/output', function () {
   });
 
   it('Read from Stream and write to Buffer via Promise', function (done) {
-    const readable = fs.createReadStream(fixtures.inputJpg);
-    const pipeline = sharp().resize(1, 1);
+    var readable = fs.createReadStream(fixtures.inputJpg);
+    var pipeline = sharp().resize(1, 1);
     pipeline.toBuffer().then(function (data) {
       assert.strictEqual(true, data.length > 0);
       done();
@@ -90,8 +90,8 @@ describe('Input/output', function () {
   });
 
   it('Read from Stream and write to Stream', function (done) {
-    const readable = fs.createReadStream(fixtures.inputJpg);
-    const writable = fs.createWriteStream(fixtures.outputJpg);
+    var readable = fs.createReadStream(fixtures.inputJpg);
+    var writable = fs.createWriteStream(fixtures.outputJpg);
     writable.on('finish', function () {
       sharp(fixtures.outputJpg).toBuffer(function (err, data, info) {
         if (err) throw err;
@@ -104,14 +104,14 @@ describe('Input/output', function () {
         done();
       });
     });
-    const pipeline = sharp().resize(320, 240);
+    var pipeline = sharp().resize(320, 240);
     readable.pipe(pipeline).pipe(writable);
   });
 
   it('Stream should emit info event', function (done) {
-    const readable = fs.createReadStream(fixtures.inputJpg);
-    const writable = fs.createWriteStream(fixtures.outputJpg);
-    const pipeline = sharp().resize(320, 240);
+    var readable = fs.createReadStream(fixtures.inputJpg);
+    var writable = fs.createWriteStream(fixtures.outputJpg);
+    var pipeline = sharp().resize(320, 240);
     let infoEventEmitted = false;
     pipeline.on('info', function (info) {
       assert.strictEqual('jpeg', info.format);
@@ -129,7 +129,7 @@ describe('Input/output', function () {
   });
 
   it('Handle Stream to Stream error ', function (done) {
-    const pipeline = sharp().resize(320, 240);
+    var pipeline = sharp().resize(320, 240);
     let anErrorWasEmitted = false;
     pipeline.on('error', function (err) {
       anErrorWasEmitted = !!err;
@@ -138,13 +138,13 @@ describe('Input/output', function () {
       fs.unlinkSync(fixtures.outputJpg);
       done();
     });
-    const readableButNotAnImage = fs.createReadStream(__filename);
-    const writable = fs.createWriteStream(fixtures.outputJpg);
+    var readableButNotAnImage = fs.createReadStream(__filename);
+    var writable = fs.createWriteStream(fixtures.outputJpg);
     readableButNotAnImage.pipe(pipeline).pipe(writable);
   });
 
   it('Handle File to Stream error', function (done) {
-    const readableButNotAnImage = sharp(__filename).resize(320, 240);
+    var readableButNotAnImage = sharp(__filename).resize(320, 240);
     let anErrorWasEmitted = false;
     readableButNotAnImage.on('error', function (err) {
       anErrorWasEmitted = !!err;
@@ -153,7 +153,7 @@ describe('Input/output', function () {
       fs.unlinkSync(fixtures.outputJpg);
       done();
     });
-    const writable = fs.createWriteStream(fixtures.outputJpg);
+    var writable = fs.createWriteStream(fixtures.outputJpg);
     readableButNotAnImage.pipe(writable);
   });
 
@@ -714,7 +714,7 @@ describe('Input/output', function () {
   });
 
   it('Load TIFF from Buffer', function (done) {
-    const inputTiffBuffer = fs.readFileSync(fixtures.inputTiff);
+    var inputTiffBuffer = fs.readFileSync(fixtures.inputTiff);
     sharp(inputTiffBuffer)
       .resize(320, 240)
       .jpeg()
@@ -761,7 +761,7 @@ describe('Input/output', function () {
   });
 
   it('Load GIF from Buffer', function (done) {
-    const inputGifBuffer = fs.readFileSync(fixtures.inputGif);
+    var inputGifBuffer = fs.readFileSync(fixtures.inputGif);
     sharp(inputGifBuffer)
       .resize(320, 240)
       .jpeg()
@@ -1044,7 +1044,7 @@ describe('Input/output', function () {
 
   it('Queue length change events', function (done) {
     let eventCounter = 0;
-    const queueListener = function (queueLength) {
+    var queueListener = function (queueLength) {
       assert.strictEqual(true, queueLength === 0 || queueLength === 1);
       eventCounter++;
     };
@@ -1062,8 +1062,8 @@ describe('Input/output', function () {
   });
 
   it('Info event data', function (done) {
-    const readable = fs.createReadStream(fixtures.inputJPGBig);
-    const inPipeline = sharp()
+    var readable = fs.createReadStream(fixtures.inputJPGBig);
+    var inPipeline = sharp()
       .resize(840, 472)
       .raw()
       .on('info', function (info) {
@@ -1071,15 +1071,15 @@ describe('Input/output', function () {
         assert.strictEqual(472, info.height);
         assert.strictEqual(3, info.channels);
       });
-    const badPipeline = sharp(null, {raw: {width: 840, height: 500, channels: 3}})
+    var badPipeline = sharp(null, {raw: {width: 840, height: 500, channels: 3}})
       .toFormat('jpeg')
       .toBuffer(function (err, data, info) {
         assert.strictEqual(err.message.indexOf('memory area too small') > 0, true);
-        const readable = fs.createReadStream(fixtures.inputJPGBig);
-        const inPipeline = sharp()
+        var readable = fs.createReadStream(fixtures.inputJPGBig);
+        var inPipeline = sharp()
           .resize(840, 472)
           .raw();
-        const goodPipeline = sharp(null, {raw: {width: 840, height: 472, channels: 3}})
+        var goodPipeline = sharp(null, {raw: {width: 840, height: 472, channels: 3}})
           .toFormat('jpeg')
           .toBuffer(function (err, data, info) {
             if (err) throw err;

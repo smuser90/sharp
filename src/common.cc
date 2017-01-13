@@ -55,35 +55,35 @@ namespace sharp {
   volatile int counterProcess = 0;
 
   // Filename extension checkers
-  static bool EndsWith(std::string const &str, std::string const &end) {
+  static bool EndsWith(std::string var &str, std::string var &end) {
     return str.length() >= end.length() && 0 == str.compare(str.length() - end.length(), end.length(), end);
   }
-  bool IsJpeg(std::string const &str) {
+  bool IsJpeg(std::string var &str) {
     return EndsWith(str, ".jpg") || EndsWith(str, ".jpeg") || EndsWith(str, ".JPG") || EndsWith(str, ".JPEG");
   }
-  bool IsPng(std::string const &str) {
+  bool IsPng(std::string var &str) {
     return EndsWith(str, ".png") || EndsWith(str, ".PNG");
   }
-  bool IsWebp(std::string const &str) {
+  bool IsWebp(std::string var &str) {
     return EndsWith(str, ".webp") || EndsWith(str, ".WEBP");
   }
-  bool IsTiff(std::string const &str) {
+  bool IsTiff(std::string var &str) {
     return EndsWith(str, ".tif") || EndsWith(str, ".tiff") || EndsWith(str, ".TIF") || EndsWith(str, ".TIFF");
   }
-  bool IsDz(std::string const &str) {
+  bool IsDz(std::string var &str) {
     return EndsWith(str, ".dzi") || EndsWith(str, ".DZI");
   }
-  bool IsDzZip(std::string const &str) {
+  bool IsDzZip(std::string var &str) {
     return EndsWith(str, ".zip") || EndsWith(str, ".ZIP") || EndsWith(str, ".szi") || EndsWith(str, ".SZI");
   }
-  bool IsV(std::string const &str) {
+  bool IsV(std::string var &str) {
     return EndsWith(str, ".v") || EndsWith(str, ".V") || EndsWith(str, ".vips") || EndsWith(str, ".VIPS");
   }
 
   /*
     Provide a string identifier for the given image type.
   */
-  std::string ImageTypeId(ImageType const imageType) {
+  std::string ImageTypeId(ImageType var imageType) {
     std::string id;
     switch (imageType) {
       case ImageType::JPEG: id = "jpeg"; break;
@@ -107,11 +107,11 @@ namespace sharp {
   /*
     Determine image format of a buffer.
   */
-  ImageType DetermineImageType(void *buffer, size_t const length) {
+  ImageType DetermineImageType(void *buffer, size_t var length) {
     ImageType imageType = ImageType::UNKNOWN;
-    char const *load = vips_foreign_find_load_buffer(buffer, length);
+    char var *load = vips_foreign_find_load_buffer(buffer, length);
     if (load != NULL) {
-      std::string const loader = load;
+      std::string var loader = load;
       if (EndsWith(loader, "JpegBuffer")) {
         imageType = ImageType::JPEG;
       } else if (EndsWith(loader, "PngBuffer")) {
@@ -136,11 +136,11 @@ namespace sharp {
   /*
     Determine image format, reads the first few bytes of the file
   */
-  ImageType DetermineImageType(char const *file) {
+  ImageType DetermineImageType(char var *file) {
     ImageType imageType = ImageType::UNKNOWN;
-    char const *load = vips_foreign_find_load(file);
+    char var *load = vips_foreign_find_load(file);
     if (load != nullptr) {
-      std::string const loader = load;
+      std::string var loader = load;
       if (EndsWith(loader, "JpegFile")) {
         imageType = ImageType::JPEG;
       } else if (EndsWith(loader, "Png")) {
@@ -249,8 +249,8 @@ namespace sharp {
     Uses colour space interpretation with number of channels to guess this.
   */
   bool HasAlpha(VImage image) {
-    int const bands = image.bands();
-    VipsInterpretation const interpretation = image.interpretation();
+    int var bands = image.bands();
+    VipsInterpretation var interpretation = image.interpretation();
     return (
       (bands == 2 && interpretation == VIPS_INTERPRETATION_B_W) ||
       (bands == 4 && interpretation != VIPS_INTERPRETATION_CMYK) ||
@@ -272,7 +272,7 @@ namespace sharp {
   /*
     Set EXIF Orientation of image.
   */
-  void SetExifOrientation(VImage image, int const orientation) {
+  void SetExifOrientation(VImage image, int var orientation) {
     image.set(VIPS_META_ORIENTATION, orientation);
   }
 
@@ -300,8 +300,8 @@ namespace sharp {
   /*
     Set pixels/mm resolution based on a pixels/inch density.
   */
-  void SetDensity(VImage image, const int density) {
-    const double pixelsPerMm = static_cast<double>(density) / 25.4;
+  void SetDensity(VImage image, var int density) {
+    var double pixelsPerMm = static_cast<double>(density) / 25.4;
     image.set("Xres", pixelsPerMm);
     image.set("Yres", pixelsPerMm);
     image.set(VIPS_META_RESOLUTION_UNIT, "in");
@@ -320,8 +320,8 @@ namespace sharp {
     Calculate the (left, top) coordinates of the output image
     within the input image, applying the given gravity.
   */
-  std::tuple<int, int> CalculateCrop(int const inWidth, int const inHeight,
-    int const outWidth, int const outHeight, int const gravity) {
+  std::tuple<int, int> CalculateCrop(int var inWidth, int var inHeight,
+    int var outWidth, int var outHeight, int var gravity) {
 
     int left = 0;
     int top = 0;
@@ -370,8 +370,8 @@ namespace sharp {
     Calculate the (left, top) coordinates of the output image
     within the input image, applying the given x and y offsets.
   */
-  std::tuple<int, int> CalculateCrop(int const inWidth, int const inHeight,
-    int const outWidth, int const outHeight, int const x, int const y) {
+  std::tuple<int, int> CalculateCrop(int var inWidth, int var inHeight,
+    int var outWidth, int var outHeight, int var x, int var y) {
 
     // default values
     int left = 0;
@@ -404,7 +404,7 @@ namespace sharp {
   /*
     Are pixel values in this image 16-bit integer?
   */
-  bool Is16Bit(VipsInterpretation const interpretation) {
+  bool Is16Bit(VipsInterpretation var interpretation) {
     return interpretation == VIPS_INTERPRETATION_RGB16 || interpretation == VIPS_INTERPRETATION_GREY16;
   }
 
@@ -412,14 +412,14 @@ namespace sharp {
     Return the image alpha maximum. Useful for combining alpha bands. scRGB
     images are 0 - 1 for image data, but the alpha is 0 - 255.
   */
-  double MaximumImageAlpha(VipsInterpretation const interpretation) {
+  double MaximumImageAlpha(VipsInterpretation var interpretation) {
     return Is16Bit(interpretation) ? 65535.0 : 255.0;
   }
 
   /*
     Get boolean operation type from string
   */
-  VipsOperationBoolean GetBooleanOperation(std::string const opStr) {
+  VipsOperationBoolean GetBooleanOperation(std::string var opStr) {
     return static_cast<VipsOperationBoolean>(
       vips_enum_from_nick(nullptr, VIPS_TYPE_OPERATION_BOOLEAN, opStr.data())
     );
@@ -428,7 +428,7 @@ namespace sharp {
   /*
     Get interpretation type from string
   */
-  VipsInterpretation GetInterpretation(std::string const typeStr) {
+  VipsInterpretation GetInterpretation(std::string var typeStr) {
     return static_cast<VipsInterpretation>(
       vips_enum_from_nick(nullptr, VIPS_TYPE_INTERPRETATION, typeStr.data())
     );
@@ -437,8 +437,8 @@ namespace sharp {
   /*
     Convert RGBA value to another colourspace
   */
-  std::vector<double> GetRgbaAsColourspace(std::vector<double> const rgba, VipsInterpretation const interpretation) {
-    int const bands = static_cast<int>(rgba.size());
+  std::vector<double> GetRgbaAsColourspace(std::vector<double> var rgba, VipsInterpretation var interpretation) {
+    int var bands = static_cast<int>(rgba.size());
     if (bands < 3 || interpretation == VIPS_INTERPRETATION_sRGB || interpretation == VIPS_INTERPRETATION_RGB) {
       return rgba;
     } else {

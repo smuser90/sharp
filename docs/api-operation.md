@@ -39,7 +39,7 @@ for example `rotate(x).extract(y)` will produce a different result to `extract(y
 **Examples**
 
 ```javascript
-const pipeline = sharp()
+var pipeline = sharp()
   .rotate()
   .resize(null, 200)
   .toBuffer(function (err, outputBuffer, info) {

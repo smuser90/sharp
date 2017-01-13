@@ -1,7 +1,7 @@
 'use strict';
 
-const assert = require('assert');
-const fixtures = require('../fixtures');
+var assert = require('assert');
+var fixtures = require('../fixtures');
 
 describe('Test fixtures', function () {
   describe('assertMaxColourDistance', function () {
@@ -16,7 +16,7 @@ describe('Test fixtures', function () {
       });
     });
     it('should accept a zero threshold when comparing an image to itself', function () {
-      const image = fixtures.inputPngOverlayLayer0;
+      var image = fixtures.inputPngOverlayLayer0;
       fixtures.assertMaxColourDistance(image, image, 0);
     });
     it('should accept a numeric threshold for two different images', function () {

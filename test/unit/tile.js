@@ -1,23 +1,23 @@
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
-const assert = require('assert');
+var fs = require('fs');
+var path = require('path');
+var assert = require('assert');
 
-const eachLimit = require('async/eachLimit');
-const rimraf = require('rimraf');
-const unzip = require('unzip');
+var eachLimit = require('async/eachLimit');
+var rimraf = require('rimraf');
+var unzip = require('unzip');
 
-const sharp = require('../../');
-const fixtures = require('../fixtures');
+var sharp = require('../../');
+var fixtures = require('../fixtures');
 
 // Verifies all tiles in a given dz output directory are <= size
-const assertDeepZoomTiles = function (directory, expectedSize, expectedLevels, done) {
+var assertDeepZoomTiles = function (directory, expectedSize, expectedLevels, done) {
   // Get levels
-  const levels = fs.readdirSync(directory);
+  var levels = fs.readdirSync(directory);
   assert.strictEqual(expectedLevels, levels.length);
   // Get tiles
-  const tiles = [];
+  var tiles = [];
   levels.forEach(function (level) {
     // Verify level directory name
     assert.strictEqual(true, /^[0-9]+$/.test(level));
@@ -157,7 +157,7 @@ describe('Tile', function () {
   });
 
   it('Deep Zoom layout', function (done) {
-    const directory = fixtures.path('output.dzi_files');
+    var directory = fixtures.path('output.dzi_files');
     rimraf(directory, function () {
       sharp(fixtures.inputJpg)
         .toFile(fixtures.path('output.dzi'), function (err, info) {
@@ -173,7 +173,7 @@ describe('Tile', function () {
   });
 
   it('Deep Zoom layout with custom size+overlap', function (done) {
-    const directory = fixtures.path('output.512.dzi_files');
+    var directory = fixtures.path('output.512.dzi_files');
     rimraf(directory, function () {
       sharp(fixtures.inputJpg)
         .tile({
@@ -193,7 +193,7 @@ describe('Tile', function () {
   });
 
   it('Zoomify layout', function (done) {
-    const directory = fixtures.path('output.zoomify.dzi');
+    var directory = fixtures.path('output.zoomify.dzi');
     rimraf(directory, function () {
       sharp(fixtures.inputJpg)
         .tile({
@@ -217,7 +217,7 @@ describe('Tile', function () {
   });
 
   it('Google layout', function (done) {
-    const directory = fixtures.path('output.google.dzi');
+    var directory = fixtures.path('output.google.dzi');
     rimraf(directory, function () {
       sharp(fixtures.inputJpg)
         .tile({
@@ -241,7 +241,7 @@ describe('Tile', function () {
   });
 
   it('Google layout with jpeg format', function (done) {
-    const directory = fixtures.path('output.jpg.google.dzi');
+    var directory = fixtures.path('output.jpg.google.dzi');
     rimraf(directory, function () {
       sharp(fixtures.inputJpg)
         .jpeg({ quality: 1 })
@@ -255,7 +255,7 @@ describe('Tile', function () {
           assert.strictEqual(2225, info.height);
           assert.strictEqual(3, info.channels);
           assert.strictEqual('number', typeof info.size);
-          const sample = path.join(directory, '0', '0', '0.jpg');
+          var sample = path.join(directory, '0', '0', '0.jpg');
           sharp(sample).metadata(function (err, metadata) {
             if (err) throw err;
             assert.strictEqual('jpeg', metadata.format);
@@ -276,7 +276,7 @@ describe('Tile', function () {
   });
 
   it('Google layout with png format', function (done) {
-    const directory = fixtures.path('output.png.google.dzi');
+    var directory = fixtures.path('output.png.google.dzi');
     rimraf(directory, function () {
       sharp(fixtures.inputJpg)
         .png({ compressionLevel: 1 })
@@ -290,7 +290,7 @@ describe('Tile', function () {
           assert.strictEqual(2225, info.height);
           assert.strictEqual(3, info.channels);
           assert.strictEqual('number', typeof info.size);
-          const sample = path.join(directory, '0', '0', '0.png');
+          var sample = path.join(directory, '0', '0', '0.png');
           sharp(sample).metadata(function (err, metadata) {
             if (err) throw err;
             assert.strictEqual('png', metadata.format);
@@ -311,7 +311,7 @@ describe('Tile', function () {
   });
 
   it('Google layout with webp format', function (done) {
-    const directory = fixtures.path('output.webp.google.dzi');
+    var directory = fixtures.path('output.webp.google.dzi');
     rimraf(directory, function () {
       sharp(fixtures.inputJpg)
         .webp({ quality: 1 })
@@ -325,7 +325,7 @@ describe('Tile', function () {
           assert.strictEqual(2225, info.height);
           assert.strictEqual(3, info.channels);
           assert.strictEqual('number', typeof info.size);
-          const sample = path.join(directory, '0', '0', '0.webp');
+          var sample = path.join(directory, '0', '0', '0.webp');
           sharp(sample).metadata(function (err, metadata) {
             if (err) throw err;
             assert.strictEqual('webp', metadata.format);
@@ -346,9 +346,9 @@ describe('Tile', function () {
   });
 
   it('Write to ZIP container using file extension', function (done) {
-    const container = fixtures.path('output.dz.container.zip');
-    const extractTo = fixtures.path('output.dz.container');
-    const directory = path.join(extractTo, 'output.dz.container_files');
+    var container = fixtures.path('output.dz.container.zip');
+    var extractTo = fixtures.path('output.dz.container');
+    var directory = path.join(extractTo, 'output.dz.container_files');
     rimraf(directory, function () {
       sharp(fixtures.inputJpg)
         .toFile(container, function (err, info) {
@@ -374,9 +374,9 @@ describe('Tile', function () {
   });
 
   it('Write to ZIP container using container tile option', function (done) {
-    const container = fixtures.path('output.dz.containeropt.zip');
-    const extractTo = fixtures.path('output.dz.containeropt');
-    const directory = path.join(extractTo, 'output.dz.containeropt_files');
+    var container = fixtures.path('output.dz.containeropt.zip');
+    var extractTo = fixtures.path('output.dz.containeropt');
+    var directory = path.join(extractTo, 'output.dz.containeropt_files');
     rimraf(directory, function () {
       sharp(fixtures.inputJpg)
         .tile({

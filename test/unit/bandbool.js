@@ -1,8 +1,8 @@
 'use strict';
 
-const assert = require('assert');
-const fixtures = require('../fixtures');
-const sharp = require('../../');
+var assert = require('assert');
+var fixtures = require('../fixtures');
+var sharp = require('../../');
 
 describe('Bandbool per-channel boolean operations', function () {
   [

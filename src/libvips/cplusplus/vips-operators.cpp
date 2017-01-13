@@ -231,11 +231,11 @@ VImage VImage::round( VipsOperationRound round , VOption *options )
     return( out );
 }
 
-VImage VImage::relational_const( std::vector<double> c , VipsOperationRelational relational , VOption *options )
+VImage VImage::relational_var( std::vector<double> c , VipsOperationRelational relational , VOption *options )
 {
     VImage out;
 
-    call( "relational_const" ,
+    call( "relational_var" ,
         (options ? options : VImage::option()) ->
             set( "in", *this ) ->
             set( "out", &out ) ->
@@ -245,11 +245,11 @@ VImage VImage::relational_const( std::vector<double> c , VipsOperationRelational
     return( out );
 }
 
-VImage VImage::remainder_const( std::vector<double> c , VOption *options )
+VImage VImage::remainder_var( std::vector<double> c , VOption *options )
 {
     VImage out;
 
-    call( "remainder_const" ,
+    call( "remainder_var" ,
         (options ? options : VImage::option()) ->
             set( "in", *this ) ->
             set( "out", &out ) ->
@@ -258,11 +258,11 @@ VImage VImage::remainder_const( std::vector<double> c , VOption *options )
     return( out );
 }
 
-VImage VImage::boolean_const( std::vector<double> c , VipsOperationBoolean boolean , VOption *options )
+VImage VImage::boolean_var( std::vector<double> c , VipsOperationBoolean boolean , VOption *options )
 {
     VImage out;
 
-    call( "boolean_const" ,
+    call( "boolean_var" ,
         (options ? options : VImage::option()) ->
             set( "in", *this ) ->
             set( "out", &out ) ->
@@ -272,11 +272,11 @@ VImage VImage::boolean_const( std::vector<double> c , VipsOperationBoolean boole
     return( out );
 }
 
-VImage VImage::math2_const( std::vector<double> c , VipsOperationMath2 math2 , VOption *options )
+VImage VImage::math2_var( std::vector<double> c , VipsOperationMath2 math2 , VOption *options )
 {
     VImage out;
 
-    call( "math2_const" ,
+    call( "math2_var" ,
         (options ? options : VImage::option()) ->
             set( "in", *this ) ->
             set( "out", &out ) ->
@@ -658,11 +658,11 @@ VImage VImage::bandjoin( std::vector<VImage> in , VOption *options )
     return( out );
 }
 
-VImage VImage::bandjoin_const( std::vector<double> c , VOption *options )
+VImage VImage::bandjoin_var( std::vector<double> c , VOption *options )
 {
     VImage out;
 
-    call( "bandjoin_const" ,
+    call( "bandjoin_var" ,
         (options ? options : VImage::option()) ->
             set( "in", *this ) ->
             set( "out", &out ) ->

@@ -1,21 +1,21 @@
 'use strict';
 
-const os = require('os');
-const fs = require('fs');
-const path = require('path');
-const async = require('async');
-const sharp = require('../../');
+var os = require('os');
+var fs = require('fs');
+var path = require('path');
+var async = require('async');
+var sharp = require('../../');
 
-const crops = {
+var crops = {
   centre: sharp.gravity.centre,
   entropy: sharp.strategy.entropy,
   attention: sharp.strategy.attention
 };
-const concurrency = os.cpus().length;
+var concurrency = os.cpus().length;
 
-const scores = {};
+var scores = {};
 
-const incrementScore = function (accuracy, crop) {
+var incrementScore = function (accuracy, crop) {
   if (typeof scores[accuracy] === 'undefined') {
     scores[accuracy] = {};
   }
@@ -25,13 +25,13 @@ const incrementScore = function (accuracy, crop) {
   scores[accuracy][crop]++;
 };
 
-const userData = require('./userData.json');
-const files = Object.keys(userData);
+var userData = require('./userData.json');
+var files = Object.keys(userData);
 
 async.eachLimit(files, concurrency, function (file, done) {
-  const filename = path.join(__dirname, 'Image', file);
-  const salientWidth = userData[file].right - userData[file].left;
-  const salientHeight = userData[file].bottom - userData[file].top;
+  var filename = path.join(__dirname, 'Image', file);
+  var salientWidth = userData[file].right - userData[file].left;
+  var salientHeight = userData[file].bottom - userData[file].top;
   sharp(filename).metadata(function (err, metadata) {
     if (err) console.log(err);
     async.each(Object.keys(crops), function (crop, done) {
@@ -39,7 +39,7 @@ async.eachLimit(files, concurrency, function (file, done) {
         // Left edge accuracy
         function (done) {
           sharp(filename).resize(salientWidth, metadata.height).crop(crops[crop]).toBuffer(function (err, data, info) {
-            const accuracy = Math.round(Math.abs(userData[file].left - info.cropCalcLeft) / (metadata.width - salientWidth) * 100);
+            var accuracy = Math.round(Math.abs(userData[file].left - info.cropCalcLeft) / (metadata.width - salientWidth) * 100);
             incrementScore(accuracy, crop);
             done(err);
           });
@@ -47,7 +47,7 @@ async.eachLimit(files, concurrency, function (file, done) {
         // Top edge accuracy
         function (done) {
           sharp(filename).resize(metadata.width, salientHeight).crop(crops[crop]).toBuffer(function (err, data, info) {
-            const accuracy = Math.round(Math.abs(userData[file].top - info.cropCalcTop) / (metadata.height - salientHeight) * 100);
+            var accuracy = Math.round(Math.abs(userData[file].top - info.cropCalcTop) / (metadata.height - salientHeight) * 100);
             incrementScore(accuracy, crop);
             done(err);
           });
@@ -56,7 +56,7 @@ async.eachLimit(files, concurrency, function (file, done) {
     }, done);
   });
 }, function () {
-  const report = [];
+  var report = [];
   Object.keys(scores).forEach(function (accuracy) {
     report.push(
       Object.assign({

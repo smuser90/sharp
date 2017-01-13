@@ -2,24 +2,24 @@
 
 process.env.UV_THREADPOOL_SIZE = 64;
 
-const assert = require('assert');
-const async = require('async');
+var assert = require('assert');
+var async = require('async');
 
-const sharp = require('../../');
-const fixtures = require('../fixtures');
+var sharp = require('../../');
+var fixtures = require('../fixtures');
 
-const width = 720;
-const height = 480;
+var width = 720;
+var height = 480;
 
 sharp.concurrency(1);
 sharp.simd(true);
 
-const timer = setInterval(function () {
+var timer = setInterval(function () {
   console.dir(sharp.counters());
 }, 100);
 
 async.mapSeries([1, 1, 2, 4, 8, 16, 32, 64], function (parallelism, next) {
-  const start = new Date().getTime();
+  var start = new Date().getTime();
   async.times(parallelism,
     function (id, callback) {
       /* jslint unused: false */
@@ -31,7 +31,7 @@ async.mapSeries([1, 1, 2, 4, 8, 16, 32, 64], function (parallelism, next) {
     function (err, ids) {
       assert(!err);
       assert(ids.length === parallelism);
-      const mean = ids.reduce(function (a, b) {
+      var mean = ids.reduce(function (a, b) {
         return a + b;
       }) / ids.length;
       console.log(parallelism + ' parallel calls: fastest=' + ids[0] + 'ms slowest=' + ids[ids.length - 1] + 'ms mean=' + mean + 'ms');

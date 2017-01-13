@@ -9,7 +9,7 @@ describe('Require-time checks', function () {
     segfault due to the use of static function variables.
   */
   it('Require alongside C++ module that does not use libc++', function () {
-    const bufferutil = require('bufferutil');
-    const sharp = require('../../');
+    var bufferutil = require('bufferutil');
+    var sharp = require('../../');
   });
 });

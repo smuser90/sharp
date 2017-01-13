@@ -1,8 +1,8 @@
 'use strict';
 
-const assert = require('assert');
-const fixtures = require('../fixtures');
-const sharp = require('../../');
+var assert = require('assert');
+var fixtures = require('../fixtures');
+var sharp = require('../../');
 
 describe('Alpha transparency', function () {
   it('Flatten to black', function (done) {
@@ -44,7 +44,7 @@ describe('Alpha transparency', function () {
   });
 
   it('Flatten 16-bit PNG with transparency to orange', function (done) {
-    const output = fixtures.path('output.flatten-rgb16-orange.jpg');
+    var output = fixtures.path('output.flatten-rgb16-orange.jpg');
     sharp(fixtures.inputPngWithTransparency16bit)
       .flatten()
       .background({r: 255, g: 102, b: 0})
@@ -82,9 +82,9 @@ describe('Alpha transparency', function () {
   });
 
   it('Enlargement with non-nearest neighbor interpolation shouldn’t cause dark edges', function (done) {
-    const base = 'alpha-premultiply-enlargement-2048x1536-paper.png';
-    const actual = fixtures.path('output.' + base);
-    const expected = fixtures.expected(base);
+    var base = 'alpha-premultiply-enlargement-2048x1536-paper.png';
+    var actual = fixtures.path('output.' + base);
+    var expected = fixtures.expected(base);
     sharp(fixtures.inputPngAlphaPremultiplicationSmall)
       .resize(2048, 1536)
       .toFile(actual, function (err) {
@@ -98,9 +98,9 @@ describe('Alpha transparency', function () {
   });
 
   it('Reduction with non-nearest neighbor interpolation shouldn’t cause dark edges', function (done) {
-    const base = 'alpha-premultiply-reduction-1024x768-paper.png';
-    const actual = fixtures.path('output.' + base);
-    const expected = fixtures.expected(base);
+    var base = 'alpha-premultiply-reduction-1024x768-paper.png';
+    var actual = fixtures.path('output.' + base);
+    var expected = fixtures.expected(base);
     sharp(fixtures.inputPngAlphaPremultiplicationLarge)
       .resize(1024, 768)
       .toFile(actual, function (err) {

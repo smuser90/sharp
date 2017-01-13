@@ -16,7 +16,7 @@ namespace sharp {
     Alpha composite src over dst with given gravity.
     Assumes alpha channels are already premultiplied and will be unpremultiplied after.
    */
-  VImage Composite(VImage src, VImage dst, const int gravity) {
+  VImage Composite(VImage src, VImage dst, var int gravity) {
     if(IsInputValidForComposition(src, dst)) {
       // Enlarge overlay src, if required
       if (src.width() < dst.width() || src.height() < dst.height()) {
@@ -37,7 +37,7 @@ namespace sharp {
     return dst;
   }
 
-  VImage Composite(VImage src, VImage dst, const int x, const int y) {
+  VImage Composite(VImage src, VImage dst, var int x, var int y) {
     if(IsInputValidForComposition(src, dst)) {
       // Enlarge overlay src, if required
       if (src.width() < dst.width() || src.height() < dst.height()) {
@@ -118,7 +118,7 @@ namespace sharp {
   /*
     Cutout src over dst with given gravity.
    */
-  VImage Cutout(VImage mask, VImage dst, const int gravity) {
+  VImage Cutout(VImage mask, VImage dst, var int gravity) {
     using sharp::CalculateCrop;
     using sharp::HasAlpha;
     using sharp::MaximumImageAlpha;
@@ -162,8 +162,8 @@ namespace sharp {
 
     // the range of the mask and the image need to match .. one could be
     // 16-bit, one 8-bit
-    double const dstMax = MaximumImageAlpha(dst.interpretation());
-    double const maskMax = MaximumImageAlpha(mask.interpretation());
+    double var dstMax = MaximumImageAlpha(dst.interpretation());
+    double var maskMax = MaximumImageAlpha(mask.interpretation());
 
     // combine the new mask and the existing alpha ... there are
     // many ways of doing this, mult is the simplest
@@ -215,7 +215,7 @@ namespace sharp {
   /*
    * Gamma encoding/decoding
    */
-  VImage Gamma(VImage image, double const exponent) {
+  VImage Gamma(VImage image, double var exponent) {
     if (HasAlpha(image)) {
       // Separate alpha channel
       VImage imageWithoutAlpha = image.extract_band(0,
@@ -230,7 +230,7 @@ namespace sharp {
   /*
    * Gaussian blur. Use sigma of -1.0 for fast blur.
    */
-  VImage Blur(VImage image, double const sigma) {
+  VImage Blur(VImage image, double var sigma) {
     if (sigma == -1.0) {
       // Fast, mild blur - averages neighbouring pixels
       VImage blur = VImage::new_matrixv(3, 3,
@@ -248,9 +248,9 @@ namespace sharp {
   /*
    * Convolution with a kernel.
    */
-  VImage Convolve(VImage image, int const width, int const height,
-    double const scale, double const offset,
-    std::unique_ptr<double[]> const &kernel_v
+  VImage Convolve(VImage image, int var width, int var height,
+    double var scale, double var offset,
+    std::unique_ptr<double[]> var &kernel_v
   ) {
     VImage kernel = VImage::new_from_memory(
       kernel_v.get(),
@@ -268,7 +268,7 @@ namespace sharp {
   /*
    * Sharpen flat and jagged areas. Use sigma of -1.0 for fast sharpen.
    */
-  VImage Sharpen(VImage image, double const sigma, double const flat, double const jagged) {
+  VImage Sharpen(VImage image, double var sigma, double var flat, double var jagged) {
     if (sigma == -1.0) {
       // Fast, mild sharpen
       VImage sharpen = VImage::new_matrixv(3, 3,
@@ -302,7 +302,7 @@ namespace sharp {
   double AttentionStrategy::operator()(VImage image) {
     // Flatten RGBA onto a mid-grey background
     if (image.bands() == 4 && HasAlpha(image)) {
-      double const midgrey = sharp::Is16Bit(image.interpretation()) ? 32768.0 : 128.0;
+      double var midgrey = sharp::Is16Bit(image.interpretation()) ? 32768.0 : 128.0;
       std::vector<double> background { midgrey, midgrey, midgrey };
       image = image.flatten(VImage::option()->set("background", background));
     }
@@ -332,22 +332,22 @@ namespace sharp {
     Calculate crop area based on image entropy
   */
   std::tuple<int, int> Crop(
-    VImage image, int const outWidth, int const outHeight, std::function<double(VImage)> strategy
+    VImage image, int var outWidth, int var outHeight, std::function<double(VImage)> strategy
   ) {
     int left = 0;
     int top = 0;
-    int const inWidth = image.width();
-    int const inHeight = image.height();
+    int var inWidth = image.width();
+    int var inHeight = image.height();
     if (inWidth > outWidth) {
       // Reduce width by repeated removing slices from edge with lowest score
       int width = inWidth;
       double leftScore = 0.0;
       double rightScore = 0.0;
       // Max width of each slice
-      int const maxSliceWidth = static_cast<int>(ceil((inWidth - outWidth) / 8.0));
+      int var maxSliceWidth = static_cast<int>(ceil((inWidth - outWidth) / 8.0));
       while (width > outWidth) {
         // Width of current slice
-        int const slice = std::min(width - outWidth, maxSliceWidth);
+        int var slice = std::min(width - outWidth, maxSliceWidth);
         if (leftScore == 0.0) {
           // Update score of left slice
           leftScore = strategy(image.extract_area(left, 0, slice, inHeight));
@@ -374,10 +374,10 @@ namespace sharp {
       double topScore = 0.0;
       double bottomScore = 0.0;
       // Max height of each slice
-      int const maxSliceHeight = static_cast<int>(ceil((inHeight - outHeight) / 8.0));
+      int var maxSliceHeight = static_cast<int>(ceil((inHeight - outHeight) / 8.0));
       while (height > outHeight) {
         // Height of current slice
-        int const slice = std::min(height - outHeight, maxSliceHeight);
+        int var slice = std::min(height - outHeight, maxSliceHeight);
         if (topScore == 0.0) {
           // Update score of top slice
           topScore = strategy(image.extract_area(0, top, inWidth, slice));
@@ -404,12 +404,12 @@ namespace sharp {
   /*
     Insert a tile cache to prevent over-computation of any previous operations in the pipeline
   */
-  VImage TileCache(VImage image, double const factor) {
+  VImage TileCache(VImage image, double var factor) {
     int tile_width;
     int tile_height;
     int scanline_count;
     vips_get_tile_size(image.get_image(), &tile_width, &tile_height, &scanline_count);
-    double const need_lines = 1.2 * scanline_count / factor;
+    double var need_lines = 1.2 * scanline_count / factor;
     return image.tilecache(VImage::option()
       ->set("tile_width", image.width())
       ->set("tile_height", 10)
@@ -419,7 +419,7 @@ namespace sharp {
     );
   }
 
-  VImage Threshold(VImage image, double const threshold, bool const thresholdGrayscale) {
+  VImage Threshold(VImage image, double var threshold, bool var thresholdGrayscale) {
     if(!thresholdGrayscale) {
       return image >= threshold;
     }
@@ -429,7 +429,7 @@ namespace sharp {
   /*
     Perform boolean/bitwise operation on image color channels - results in one channel image
   */
-  VImage Bandbool(VImage image, VipsOperationBoolean const boolean) {
+  VImage Bandbool(VImage image, VipsOperationBoolean var boolean) {
     image = image.bandbool(boolean);
     return image.copy(VImage::option()->set("interpretation", VIPS_INTERPRETATION_B_W));
   }
@@ -437,11 +437,11 @@ namespace sharp {
   /*
     Perform bitwise boolean operation between images
   */
-  VImage Boolean(VImage image, VImage imageR, VipsOperationBoolean const boolean) {
+  VImage Boolean(VImage image, VImage imageR, VipsOperationBoolean var boolean) {
     return image.boolean(imageR, boolean);
   }
 
-  VImage Trim(VImage image, int const tolerance) {
+  VImage Trim(VImage image, int var tolerance) {
     using sharp::MaximumImageAlpha;
     // An equivalent of ImageMagick's -trim in C++ ... automatically remove
     // "boring" image edges.
@@ -454,7 +454,7 @@ namespace sharp {
     // significantly different from this
     std::vector<double> background = image(0, 0);
 
-    double const max = MaximumImageAlpha(image.interpretation());
+    double var max = MaximumImageAlpha(image.interpretation());
 
     // we need to smooth the image, subtract the background from every pixel, take
     // the absolute value of the difference, then threshold

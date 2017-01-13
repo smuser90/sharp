@@ -1,13 +1,13 @@
 'use strict';
 
-const fs = require('fs');
-const assert = require('assert');
+var fs = require('fs');
+var assert = require('assert');
 
-const fixtures = require('../fixtures');
-const sharp = require('../../');
+var fixtures = require('../fixtures');
+var sharp = require('../../');
 
 // Helpers
-const getPaths = function (baseName, extension) {
+var getPaths = function (baseName, extension) {
   if (typeof extension === 'undefined') {
     extension = 'png';
   }
@@ -20,7 +20,7 @@ const getPaths = function (baseName, extension) {
 // Test
 describe('Overlays', function () {
   it('Overlay transparent PNG file on solid background', function (done) {
-    const paths = getPaths('alpha-layer-01');
+    var paths = getPaths('alpha-layer-01');
 
     sharp(fixtures.inputPngOverlayLayer0)
       .overlayWith(fixtures.inputPngOverlayLayer1)
@@ -32,7 +32,7 @@ describe('Overlays', function () {
   });
 
   it('Overlay transparent PNG Buffer on solid background', function (done) {
-    const paths = getPaths('alpha-layer-01');
+    var paths = getPaths('alpha-layer-01');
 
     sharp(fixtures.inputPngOverlayLayer0)
       .overlayWith(fs.readFileSync(fixtures.inputPngOverlayLayer1))
@@ -44,7 +44,7 @@ describe('Overlays', function () {
   });
 
   it('Overlay low-alpha transparent PNG on solid background', function (done) {
-    const paths = getPaths('alpha-layer-01-low-alpha');
+    var paths = getPaths('alpha-layer-01-low-alpha');
 
     sharp(fixtures.inputPngOverlayLayer0)
       .overlayWith(fixtures.inputPngOverlayLayer1LowAlpha)
@@ -56,7 +56,7 @@ describe('Overlays', function () {
   });
 
   it('Composite three transparent PNGs into one', function (done) {
-    const paths = getPaths('alpha-layer-012');
+    var paths = getPaths('alpha-layer-012');
 
     sharp(fixtures.inputPngOverlayLayer0)
       .overlayWith(fixtures.inputPngOverlayLayer1)
@@ -73,7 +73,7 @@ describe('Overlays', function () {
   });
 
   it('Composite two transparent PNGs into one', function (done) {
-    const paths = getPaths('alpha-layer-12');
+    var paths = getPaths('alpha-layer-12');
 
     sharp(fixtures.inputPngOverlayLayer1)
       .overlayWith(fixtures.inputPngOverlayLayer2)
@@ -85,7 +85,7 @@ describe('Overlays', function () {
   });
 
   it('Composite two low-alpha transparent PNGs into one', function (done) {
-    const paths = getPaths('alpha-layer-12-low-alpha');
+    var paths = getPaths('alpha-layer-12-low-alpha');
 
     sharp(fixtures.inputPngOverlayLayer1LowAlpha)
       .overlayWith(fixtures.inputPngOverlayLayer2LowAlpha)
@@ -97,7 +97,7 @@ describe('Overlays', function () {
   });
 
   it('Composite three low-alpha transparent PNGs into one', function (done) {
-    const paths = getPaths('alpha-layer-012-low-alpha');
+    var paths = getPaths('alpha-layer-012-low-alpha');
 
     sharp(fixtures.inputPngOverlayLayer0)
       .overlayWith(fixtures.inputPngOverlayLayer1LowAlpha)
@@ -115,7 +115,7 @@ describe('Overlays', function () {
   });
 
   it('Composite rgb+alpha PNG onto JPEG', function (done) {
-    const paths = getPaths('overlay-jpeg-with-rgb', 'jpg');
+    var paths = getPaths('overlay-jpeg-with-rgb', 'jpg');
 
     sharp(fixtures.inputJpg)
       .resize(2048, 1536)
@@ -128,7 +128,7 @@ describe('Overlays', function () {
   });
 
   it('Composite greyscale+alpha PNG onto JPEG', function (done) {
-    const paths = getPaths('overlay-jpeg-with-greyscale', 'jpg');
+    var paths = getPaths('overlay-jpeg-with-greyscale', 'jpg');
 
     sharp(fixtures.inputJpg)
       .resize(400, 300)
@@ -142,7 +142,7 @@ describe('Overlays', function () {
 
   if (sharp.format.webp.input.file) {
     it('Composite WebP onto JPEG', function (done) {
-      const paths = getPaths('overlay-jpeg-with-webp', 'jpg');
+      var paths = getPaths('overlay-jpeg-with-webp', 'jpg');
 
       sharp(fixtures.inputJpg)
         .resize(300, 300)
@@ -213,7 +213,7 @@ describe('Overlays', function () {
   describe('Overlay with numeric gravity', function () {
     Object.keys(sharp.gravity).forEach(function (gravity) {
       it(gravity, function (done) {
-        const expected = fixtures.expected('overlay-gravity-' + gravity + '.jpg');
+        var expected = fixtures.expected('overlay-gravity-' + gravity + '.jpg');
         sharp(fixtures.inputJpg)
           .resize(80)
           .overlayWith(fixtures.inputPngWithTransparency16bit, {
@@ -234,7 +234,7 @@ describe('Overlays', function () {
   describe('Overlay with string-based gravity', function () {
     Object.keys(sharp.gravity).forEach(function (gravity) {
       it(gravity, function (done) {
-        const expected = fixtures.expected('overlay-gravity-' + gravity + '.jpg');
+        var expected = fixtures.expected('overlay-gravity-' + gravity + '.jpg');
         sharp(fixtures.inputJpg)
           .resize(80)
           .overlayWith(fixtures.inputPngWithTransparency16bit, {
@@ -255,7 +255,7 @@ describe('Overlays', function () {
   describe('Overlay with tile enabled and gravity', function () {
     Object.keys(sharp.gravity).forEach(function (gravity) {
       it(gravity, function (done) {
-        const expected = fixtures.expected('overlay-tile-gravity-' + gravity + '.jpg');
+        var expected = fixtures.expected('overlay-tile-gravity-' + gravity + '.jpg');
         sharp(fixtures.inputJpg)
           .resize(80)
           .overlayWith(fixtures.inputPngWithTransparency16bit, {
@@ -276,7 +276,7 @@ describe('Overlays', function () {
 
   describe('Overlay with top-left offsets', function () {
     it('Overlay with 10px top & 10px left offsets', function (done) {
-      const expected = fixtures.expected('overlay-valid-offsets-10-10.jpg');
+      var expected = fixtures.expected('overlay-valid-offsets-10-10.jpg');
       sharp(fixtures.inputJpg)
         .resize(400)
         .overlayWith(fixtures.inputPngWithTransparency16bit, {
@@ -292,7 +292,7 @@ describe('Overlays', function () {
     });
 
     it('Overlay with 100px top & 300px left offsets', function (done) {
-      const expected = fixtures.expected('overlay-valid-offsets-100-300.jpg');
+      var expected = fixtures.expected('overlay-valid-offsets-100-300.jpg');
       sharp(fixtures.inputJpg)
         .resize(400)
         .overlayWith(fixtures.inputPngWithTransparency16bit, {
@@ -339,7 +339,7 @@ describe('Overlays', function () {
     });
 
     it('Overlay with 0 offset', function (done) {
-      const expected = fixtures.expected('overlay-offset-0.jpg');
+      var expected = fixtures.expected('overlay-offset-0.jpg');
       sharp(fixtures.inputJpg)
         .resize(400)
         .overlayWith(fixtures.inputPngWithTransparency16bit, {
@@ -355,7 +355,7 @@ describe('Overlays', function () {
     });
 
     it('Overlay with offset and gravity', function (done) {
-      const expected = fixtures.expected('overlay-offset-with-gravity.jpg');
+      var expected = fixtures.expected('overlay-offset-with-gravity.jpg');
       sharp(fixtures.inputJpg)
         .resize(400)
         .overlayWith(fixtures.inputPngWithTransparency16bit, {
@@ -373,7 +373,7 @@ describe('Overlays', function () {
     });
 
     it('Overlay with offset and gravity and tile', function (done) {
-      const expected = fixtures.expected('overlay-offset-with-gravity-tile.jpg');
+      var expected = fixtures.expected('overlay-offset-with-gravity-tile.jpg');
       sharp(fixtures.inputJpg)
         .resize(400)
         .overlayWith(fixtures.inputPngWithTransparency16bit, {
@@ -391,7 +391,7 @@ describe('Overlays', function () {
     });
 
     it('Overlay with offset and tile', function (done) {
-      const expected = fixtures.expected('overlay-offset-with-tile.jpg');
+      var expected = fixtures.expected('overlay-offset-with-tile.jpg');
       sharp(fixtures.inputJpg)
         .resize(400)
         .overlayWith(fixtures.inputPngWithTransparency16bit, {
@@ -420,7 +420,7 @@ describe('Overlays', function () {
     });
 
     it('Overlay with very large offset', function (done) {
-      const expected = fixtures.expected('overlay-very-large-offset.jpg');
+      var expected = fixtures.expected('overlay-very-large-offset.jpg');
       sharp(fixtures.inputJpg)
         .resize(400)
         .overlayWith(fixtures.inputPngWithTransparency16bit, {
@@ -458,7 +458,7 @@ describe('Overlays', function () {
   });
 
   it('With tile enabled and image rotated 90 degrees', function (done) {
-    const expected = fixtures.expected('overlay-tile-rotated90.jpg');
+    var expected = fixtures.expected('overlay-tile-rotated90.jpg');
     sharp(fixtures.inputJpg)
       .rotate(90)
       .resize(80)
@@ -476,7 +476,7 @@ describe('Overlays', function () {
   });
 
   it('With tile enabled and image rotated 90 degrees and gravity northwest', function (done) {
-    const expected = fixtures.expected('overlay-tile-rotated90-gravity-northwest.jpg');
+    var expected = fixtures.expected('overlay-tile-rotated90-gravity-northwest.jpg');
     sharp(fixtures.inputJpg)
       .rotate(90)
       .resize(80)
@@ -497,7 +497,7 @@ describe('Overlays', function () {
   describe('Overlay with cutout enabled and gravity', function () {
     Object.keys(sharp.gravity).forEach(function (gravity) {
       it(gravity, function (done) {
-        const expected = fixtures.expected('overlay-cutout-gravity-' + gravity + '.jpg');
+        var expected = fixtures.expected('overlay-cutout-gravity-' + gravity + '.jpg');
         sharp(fixtures.inputJpg)
           .resize(80)
           .overlayWith(fixtures.inputPngWithTransparency16bit, {
@@ -517,7 +517,7 @@ describe('Overlays', function () {
   });
 
   it('With cutout enabled and image rotated 90 degrees', function (done) {
-    const expected = fixtures.expected('overlay-cutout-rotated90.jpg');
+    var expected = fixtures.expected('overlay-cutout-rotated90.jpg');
     sharp(fixtures.inputJpg)
       .rotate(90)
       .resize(80)
@@ -535,7 +535,7 @@ describe('Overlays', function () {
   });
 
   it('With cutout enabled and image rotated 90 degrees and gravity northwest', function (done) {
-    const expected = fixtures.expected('overlay-cutout-rotated90-gravity-northwest.jpg');
+    var expected = fixtures.expected('overlay-cutout-rotated90-gravity-northwest.jpg');
     sharp(fixtures.inputJpg)
       .rotate(90)
       .resize(80)

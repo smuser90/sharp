@@ -1,35 +1,35 @@
 'use strict';
 
-const fs = require('fs');
-const os = require('os');
-const path = require('path');
-const zlib = require('zlib');
+var fs = require('fs');
+var os = require('os');
+var path = require('path');
+var zlib = require('zlib');
 
-const caw = require('caw');
-const got = require('got');
-const semver = require('semver');
-const tar = require('tar');
+var caw = require('caw');
+var got = require('got');
+var semver = require('semver');
+var tar = require('tar');
 
-const distBaseUrl = 'https://dl.bintray.com/lovell/sharp/';
+var distBaseUrl = 'https://dl.bintray.com/lovell/sharp/';
 
 // Use NPM-provided environment variable where available, falling back to require-based method for Electron
-const minimumLibvipsVersion = process.env.npm_package_config_libvips || require('./package.json').config.libvips;
+var minimumLibvipsVersion = process.env.npm_package_config_libvips || require('./package.json').config.libvips;
 
-const platform = process.env.npm_config_platform || process.platform;
+var platform = process.env.npm_config_platform || process.platform;
 
-const arch = process.env.npm_config_arch || process.arch;
+var arch = process.env.npm_config_arch || process.arch;
 
 // -- Helpers
 
 // Does this file exist?
-const isFile = function (file) {
+var isFile = function (file) {
   try {
     return fs.statSync(file).isFile();
   } catch (err) {}
 };
 
-const unpack = function (tarPath, done) {
-  const extractor = tar.Extract({ path: path.join(__dirname, 'vendor') });
+var unpack = function (tarPath, done) {
+  var extractor = tar.Extract({ path: path.join(__dirname, 'vendor') });
   if (done) {
     extractor.on('end', done);
   }
@@ -40,10 +40,10 @@ const unpack = function (tarPath, done) {
     .pipe(extractor);
 };
 
-const platformId = function () {
-  const platformId = [platform];
+var platformId = function () {
+  var platformId = [platform];
   if (arch === 'arm' || arch === 'armhf' || arch === 'arch64') {
-    const armVersion = (arch === 'arch64') ? '8' : process.env.npm_config_armv || process.config.variables.arm_version || '6';
+    var armVersion = (arch === 'arch64') ? '8' : process.env.npm_config_armv || process.config.variables.arm_version || '6';
     platformId.push('armv' + armVersion);
   } else {
     platformId.push(arch);
@@ -52,7 +52,7 @@ const platformId = function () {
 };
 
 // Error
-const error = function (msg) {
+var error = function (msg) {
   if (msg instanceof Error) {
     msg = msg.message;
   }
@@ -64,17 +64,17 @@ const error = function (msg) {
 
 module.exports.download_vips = function () {
   // Has vips been installed locally?
-  const vipsHeaderPath = path.join(__dirname, 'vendor', 'include', 'vips', 'vips.h');
+  var vipsHeaderPath = path.join(__dirname, 'vendor', 'include', 'vips', 'vips.h');
   if (!isFile(vipsHeaderPath)) {
     // Ensure Intel 64-bit or ARM
     if (arch === 'ia32') {
       error('Intel Architecture 32-bit systems require manual installation - please see http://sharp.dimens.io/en/stable/install/');
     }
     // Ensure glibc >= 2.15
-    const lddVersion = process.env.LDD_VERSION;
+    var lddVersion = process.env.LDD_VERSION;
     if (lddVersion) {
       if (/(glibc|gnu libc)/i.test(lddVersion)) {
-        const glibcVersion = lddVersion ? lddVersion.split(/\n/)[0].split(' ').slice(-1)[0].trim() : '';
+        var glibcVersion = lddVersion ? lddVersion.split(/\n/)[0].split(' ').slice(-1)[0].trim() : '';
         if (glibcVersion && semver.lt(glibcVersion + '.0', '2.13.0')) {
           error('glibc version ' + glibcVersion + ' requires manual installation - please see http://sharp.dimens.io/en/stable/install/');
         }
@@ -83,14 +83,14 @@ module.exports.download_vips = function () {
       }
     }
     // Arch/platform-specific .tar.gz
-    const tarFilename = ['libvips', minimumLibvipsVersion, platformId()].join('-') + '.tar.gz';
-    const tarPathLocal = path.join(__dirname, 'packaging', tarFilename);
+    var tarFilename = ['libvips', minimumLibvipsVersion, platformId()].join('-') + '.tar.gz';
+    var tarPathLocal = path.join(__dirname, 'packaging', tarFilename);
     if (isFile(tarPathLocal)) {
       unpack(tarPathLocal);
     } else {
       // Download to per-process temporary file
-      const tarPathTemp = path.join(os.tmpdir(), process.pid + '-' + tarFilename);
-      const tmpFile = fs.createWriteStream(tarPathTemp).on('finish', function () {
+      var tarPathTemp = path.join(os.tmpdir(), process.pid + '-' + tarFilename);
+      var tmpFile = fs.createWriteStream(tarPathTemp).on('finish', function () {
         unpack(tarPathTemp, function () {
           // Attempt to remove temporary file
           try {
@@ -98,12 +98,12 @@ module.exports.download_vips = function () {
           } catch (err) {}
         });
       });
-      const gotOpt = {};
+      var gotOpt = {};
       if (process.env.npm_config_https_proxy) {
         // Use the NPM-configured HTTPS proxy
         gotOpt.agent = caw(process.env.npm_config_https_proxy);
       }
-      const url = distBaseUrl + tarFilename;
+      var url = distBaseUrl + tarFilename;
       got.stream(url, gotOpt).on('response', function (response) {
         if (response.statusCode !== 200) {
           error(url + ' status code ' + response.statusCode);
@@ -116,9 +116,9 @@ module.exports.download_vips = function () {
 };
 
 module.exports.use_global_vips = function () {
-  const globalVipsVersion = process.env.GLOBAL_VIPS_VERSION;
+  var globalVipsVersion = process.env.GLOBAL_VIPS_VERSION;
   if (globalVipsVersion) {
-    const useGlobalVips = semver.gte(
+    var useGlobalVips = semver.gte(
       globalVipsVersion,
       minimumLibvipsVersion
     );

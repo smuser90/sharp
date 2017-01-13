@@ -90,28 +90,28 @@ namespace sharp {
   extern volatile int counterProcess;
 
   // Filename extension checkers
-  bool IsJpeg(std::string const &str);
-  bool IsPng(std::string const &str);
-  bool IsWebp(std::string const &str);
-  bool IsTiff(std::string const &str);
-  bool IsDz(std::string const &str);
-  bool IsDzZip(std::string const &str);
-  bool IsV(std::string const &str);
+  bool IsJpeg(std::string var &str);
+  bool IsPng(std::string var &str);
+  bool IsWebp(std::string var &str);
+  bool IsTiff(std::string var &str);
+  bool IsDz(std::string var &str);
+  bool IsDzZip(std::string var &str);
+  bool IsV(std::string var &str);
 
   /*
     Provide a string identifier for the given image type.
   */
-  std::string ImageTypeId(ImageType const imageType);
+  std::string ImageTypeId(ImageType var imageType);
 
   /*
     Determine image format of a buffer.
   */
-  ImageType DetermineImageType(void *buffer, size_t const length);
+  ImageType DetermineImageType(void *buffer, size_t var length);
 
   /*
     Determine image format of a file.
   */
-  ImageType DetermineImageType(char const *file);
+  ImageType DetermineImageType(char var *file);
 
   /*
     Open an image from the given InputDescriptor (filesystem, compressed buffer, raw pixel data)
@@ -137,7 +137,7 @@ namespace sharp {
   /*
     Set EXIF Orientation of image.
   */
-  void SetExifOrientation(VImage image, int const orientation);
+  void SetExifOrientation(VImage image, int var orientation);
 
   /*
     Remove EXIF Orientation from image.
@@ -157,7 +157,7 @@ namespace sharp {
   /*
     Set pixels/mm resolution based on a pixels/inch density.
   */
-  void SetDensity(VImage image, const int density);
+  void SetDensity(VImage image, var int density);
 
   /*
     Called when a Buffer undergoes GC, required to support mixed runtime libraries in Windows
@@ -168,41 +168,41 @@ namespace sharp {
     Calculate the (left, top) coordinates of the output image
     within the input image, applying the given gravity.
   */
-  std::tuple<int, int> CalculateCrop(int const inWidth, int const inHeight,
-    int const outWidth, int const outHeight, int const gravity);
+  std::tuple<int, int> CalculateCrop(int var inWidth, int var inHeight,
+    int var outWidth, int var outHeight, int var gravity);
 
   /*
     Calculate the (left, top) coordinates of the output image
     within the input image, applying the given x and y offsets of the output image.
   */
-  std::tuple<int, int> CalculateCrop(int const inWidth, int const inHeight,
-    int const outWidth, int const outHeight, int const x, int const y);
+  std::tuple<int, int> CalculateCrop(int var inWidth, int var inHeight,
+    int var outWidth, int var outHeight, int var x, int var y);
 
   /*
     Are pixel values in this image 16-bit integer?
   */
-  bool Is16Bit(VipsInterpretation const interpretation);
+  bool Is16Bit(VipsInterpretation var interpretation);
 
   /*
     Return the image alpha maximum. Useful for combining alpha bands. scRGB
     images are 0 - 1 for image data, but the alpha is 0 - 255.
   */
-  double MaximumImageAlpha(VipsInterpretation const interpretation);
+  double MaximumImageAlpha(VipsInterpretation var interpretation);
 
   /*
     Get boolean operation type from string
   */
-  VipsOperationBoolean GetBooleanOperation(std::string const opStr);
+  VipsOperationBoolean GetBooleanOperation(std::string var opStr);
 
   /*
     Get interpretation type from string
   */
-  VipsInterpretation GetInterpretation(std::string const typeStr);
+  VipsInterpretation GetInterpretation(std::string var typeStr);
 
   /*
     Convert RGBA value to another colourspace
   */
-  std::vector<double> GetRgbaAsColourspace(std::vector<double> const rgba, VipsInterpretation const interpretation);
+  std::vector<double> GetRgbaAsColourspace(std::vector<double> var rgba, VipsInterpretation var interpretation);
 
 }  // namespace sharp
 

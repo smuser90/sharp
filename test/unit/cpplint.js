@@ -1,10 +1,10 @@
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
-const assert = require('assert');
+var fs = require('fs');
+var path = require('path');
+var assert = require('assert');
 
-const cpplint = require('node-cpplint/lib/');
+var cpplint = require('node-cpplint/lib/');
 
 describe('cpplint', function () {
   // Ignore cpplint failures, possibly newline-related, on Windows
@@ -13,7 +13,7 @@ describe('cpplint', function () {
     fs.readdirSync(path.join(__dirname, '..', '..', 'src')).filter(function (source) {
       return source !== 'libvips';
     }).forEach(function (source) {
-      const file = path.join('src', source);
+      var file = path.join('src', source);
       it(file, function (done) {
         // Lint each source file
         cpplint({
@@ -37,7 +37,7 @@ describe('cpplint', function () {
           if (err) {
             throw err;
           }
-          const expected = {};
+          var expected = {};
           expected[file] = [];
           assert.deepEqual(expected, report);
           done();

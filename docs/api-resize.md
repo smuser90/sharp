@@ -82,7 +82,7 @@ then repeatedly ranks edge regions, discarding the edge with the lowest score ba
 **Examples**
 
 ```javascript
-const transformer = sharp()
+var transformer = sharp()
   .resize(200, 200)
   .crop(sharp.strategy.entropy)
   .on('error', function(err) {

@@ -13,7 +13,7 @@ pages:
   - Home: index.md
   - Installation: install.md
   - API:
-    - Constructor: api-constructor.md
+    - varructor: api-varructor.md
     - Input: api-input.md
     - Output: api-output.md
     - "Resizing images": api-resize.md

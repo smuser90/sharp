@@ -11,11 +11,11 @@ class MetadataWorker : public Nan::AsyncWorker {
  public:
   MetadataWorker(
     Nan::Callback *callback, MetadataBaton *baton,
-    std::vector<v8::Local<v8::Object>> const buffersToPersist
+    std::vector<v8::Local<v8::Object>> var buffersToPersist
   ) : Nan::AsyncWorker(callback), baton(baton), buffersToPersist(buffersToPersist) {
     // Protect Buffer objects from GC, keyed on index
     std::accumulate(buffersToPersist.begin(), buffersToPersist.end(), 0,
-      [this](uint32_t index, v8::Local<v8::Object> const buffer) -> uint32_t {
+      [this](uint32_t index, v8::Local<v8::Object> var buffer) -> uint32_t {
         SaveToPersistent(index, buffer);
         return index + 1;
       }
@@ -31,7 +31,7 @@ class MetadataWorker : public Nan::AsyncWorker {
     sharp::ImageType imageType = sharp::ImageType::UNKNOWN;
     try {
       std::tie(image, imageType) = OpenInput(baton->input, VIPS_ACCESS_SEQUENTIAL);
-    } catch (vips::VError const &err) {
+    } catch (vips::VError var &err) {
       (baton->err).append(err.what());
     }
     if (imageType != sharp::ImageType::UNKNOWN) {
@@ -52,7 +52,7 @@ class MetadataWorker : public Nan::AsyncWorker {
       // EXIF
       if (image.get_typeof(VIPS_META_EXIF_NAME) == VIPS_TYPE_BLOB) {
         size_t exifLength;
-        void const *exif = image.get_blob(VIPS_META_EXIF_NAME, &exifLength);
+        void var *exif = image.get_blob(VIPS_META_EXIF_NAME, &exifLength);
         baton->exif = static_cast<char*>(g_malloc(exifLength));
         memcpy(baton->exif, exif, exifLength);
         baton->exifLength = exifLength;
@@ -60,7 +60,7 @@ class MetadataWorker : public Nan::AsyncWorker {
       // ICC profile
       if (image.get_typeof(VIPS_META_ICC_NAME) == VIPS_TYPE_BLOB) {
         size_t iccLength;
-        void const *icc = image.get_blob(VIPS_META_ICC_NAME, &iccLength);
+        void var *icc = image.get_blob(VIPS_META_ICC_NAME, &iccLength);
         baton->icc = static_cast<char*>(g_malloc(iccLength));
         memcpy(baton->icc, icc, iccLength);
         baton->iccLength = iccLength;
@@ -113,7 +113,7 @@ class MetadataWorker : public Nan::AsyncWorker {
 
     // Dispose of Persistent wrapper around input Buffers so they can be garbage collected
     std::accumulate(buffersToPersist.begin(), buffersToPersist.end(), 0,
-      [this](uint32_t index, v8::Local<v8::Object> const buffer) -> uint32_t {
+      [this](uint32_t index, v8::Local<v8::Object> var buffer) -> uint32_t {
         GetFromPersistent(index);
         return index + 1;
       }

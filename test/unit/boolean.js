@@ -1,13 +1,13 @@
 'use strict';
 
-const fs = require('fs');
-const assert = require('assert');
+var fs = require('fs');
+var assert = require('assert');
 
-const fixtures = require('../fixtures');
-const sharp = require('../../');
+var fixtures = require('../fixtures');
+var sharp = require('../../');
 
 describe('Boolean operation between two images', function () {
-  const inputJpgBooleanTestBuffer = fs.readFileSync(fixtures.inputJpgBooleanTest);
+  var inputJpgBooleanTestBuffer = fs.readFileSync(fixtures.inputJpgBooleanTest);
 
   [
     sharp.bool.and,

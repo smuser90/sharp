@@ -16,7 +16,7 @@ This allows multiple output Streams and therefore multiple processing pipelines 
 **Examples**
 
 ```javascript
-const pipeline = sharp().rotate();
+var pipeline = sharp().rotate();
 pipeline.clone().resize(800, 600).pipe(firstWritableStream);
 pipeline.clone().extract({ left: 20, top: 20, width: 100, height: 100 }).pipe(secondWritableStream);
 readableStream.pipe(pipeline);
@@ -50,7 +50,7 @@ A Promises/A+ promise is returned when `callback` is not provided.
 **Examples**
 
 ```javascript
-const image = sharp(inputJpg);
+var image = sharp(inputJpg);
 image
   .metadata()
   .then(function(metadata) {

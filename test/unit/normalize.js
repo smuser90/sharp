@@ -1,11 +1,11 @@
 'use strict';
 
-const assert = require('assert');
+var assert = require('assert');
 
-const sharp = require('../../');
-const fixtures = require('../fixtures');
+var sharp = require('../../');
+var fixtures = require('../fixtures');
 
-const assertNormalized = function (data) {
+var assertNormalized = function (data) {
   let min = 255;
   let max = 0;
   for (let i = 0; i < data.length; i++) {
@@ -83,7 +83,7 @@ describe('Normalization', function () {
   });
 
   it('does not alter images with only one color', function (done) {
-    const output = fixtures.path('output.unmodified-png-with-one-color.png');
+    var output = fixtures.path('output.unmodified-png-with-one-color.png');
     sharp(fixtures.inputPngWithOneColor)
       .normalize()
       .toFile(output, function (err, info) {

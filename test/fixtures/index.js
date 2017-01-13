@@ -1,17 +1,17 @@
 'use strict';
 
-const path = require('path');
-const sharp = require('../../');
-const maxColourDistance = require('../../build/Release/sharp')._maxColourDistance;
+var path = require('path');
+var sharp = require('../../');
+var maxColourDistance = require('../../build/Release/sharp')._maxColourDistance;
 
 // Helpers
-const getPath = function (filename) {
+var getPath = function (filename) {
   return path.join(__dirname, filename);
 };
 
 // Generates a 64-bit-as-binary-string image fingerprint
 // Based on the dHash gradient method - see http://www.hackerfactor.com/blog/index.php?/archives/529-Kind-of-Like-That.html
-const fingerprint = function (image, callback) {
+var fingerprint = function (image, callback) {
   sharp(image)
     .greyscale()
     .normalise()
@@ -25,8 +25,8 @@ const fingerprint = function (image, callback) {
         let fingerprint = '';
         for (let col = 0; col < 8; col++) {
           for (let row = 0; row < 8; row++) {
-            const left = data[row * 8 + col];
-            const right = data[row * 8 + col + 1];
+            var left = data[row * 8 + col];
+            var right = data[row * 8 + col + 1];
             fingerprint = fingerprint + (left < right ? '1' : '0');
           }
         }
@@ -168,7 +168,7 @@ module.exports = {
       // Default threshold
       acceptedDistance = 1;
     }
-    const distance = maxColourDistance(actualImagePath, expectedImagePath);
+    var distance = maxColourDistance(actualImagePath, expectedImagePath);
     if (distance > acceptedDistance) {
       throw new Error('Expected maximum absolute distance of ' + acceptedDistance + ', actual ' + distance);
     }
